@@ -11,9 +11,9 @@
 <body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col justify-between">
   
   <div>
-    <!-- Header -->
+    <!-- Header chính thức -->
     <header class="bg-blue-950 text-white shadow-xl sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap justify-between items-center gap-3">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
         <div class="flex items-center gap-3">
           <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 flex items-center justify-center text-xl text-amber-400 font-bold shadow-md border border-blue-400/30">
             <i class="fa-solid fa-graduation-cap"></i>
@@ -28,41 +28,42 @@
           </div>
         </div>
         
-        <!-- Cấu hình API và Model -->
+        <!-- Khối cấu hình AI Flash -->
         <div class="flex flex-wrap items-center gap-2">
           <select id="modelSelector" class="text-xs px-2.5 py-2 rounded-xl bg-blue-900 border border-blue-700 text-amber-300 font-semibold focus:outline-none">
             <option value="models/gemini-3.6-flash" selected>Gemini 3.6 Flash (Mới nhất)</option>
             <option value="models/gemini-2.5-flash">Gemini 2.5 Flash (Dự phòng)</option>
           </select>
-          <input type="password" id="geminiKeyInput" placeholder="Nhập Gemini API Key..." class="text-xs px-3 py-2 rounded-xl bg-blue-900/80 border border-blue-700 text-white placeholder-blue-300 w-32 md:w-40 focus:outline-none focus:ring-1 focus:ring-amber-400">
-          <button onclick="saveConfig()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition shadow">
+          <input type="password" id="geminiKeyInput" placeholder="Nhập Gemini API Key..." class="text-xs px-3 py-2 rounded-xl bg-blue-900/80 border border-blue-700 text-white placeholder-blue-300 w-32 md:w-44 focus:outline-none focus:ring-1 focus:ring-amber-400">
+          <button onclick="saveApiKey()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition shadow">
             Lưu
           </button>
         </div>
       </div>
 
-      <!-- Thanh đăng nhập & Kết nối Google Apps Script -->
+      <!-- Thanh Định Danh Đăng Nhập (Tự động nhận diện Backend, không cần nhập URL) -->
       <div class="bg-blue-900/90 px-4 py-2 border-t border-blue-800 text-xs flex flex-wrap justify-between items-center gap-2">
-        <div class="flex flex-wrap items-center gap-2 text-slate-200">
-          <span class="flex items-center gap-1.5">
-            <i class="fa-solid fa-link text-blue-400"></i>
-            <span>Google Web App URL:</span>
+        <div class="flex items-center gap-2 text-slate-200">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium text-[11px]">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Hệ thống Google Cloud: Đã kết nối tự động
           </span>
-          <input type="text" id="gasUrlInput" placeholder="Dán link Web App Apps Script (https://script.google.com/.../exec)" class="text-[11px] px-2.5 py-1 rounded bg-blue-950 border border-blue-700 text-white w-48 md:w-80 focus:outline-none">
-          <button onclick="saveGasUrl()" class="bg-blue-700 hover:bg-blue-600 text-white text-[11px] px-2.5 py-1 rounded font-bold">Lưu Link</button>
+          <span class="text-blue-300 hidden md:inline">• Bộ phận: <b id="userDeptBadge" class="text-white">Đang tải...</b></span>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-          <span class="text-slate-300 text-[11px]">Email đăng nhập:</span>
-          <input type="email" id="userEmailInput" placeholder="email@khanhlam.edu.vn" class="text-[11px] px-2.5 py-1 rounded bg-blue-950 border border-blue-700 text-white w-40 md:w-52 focus:outline-none">
-          <button onclick="loginUser()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] px-2.5 py-1 rounded font-bold">Xác Nhận</button>
+          <span class="text-slate-300 text-[11px]">Email cán bộ/giáo viên:</span>
+          <input type="email" id="userEmailInput" placeholder="email@khanhlam.edu.vn" class="text-[11px] px-2.5 py-1 rounded-lg bg-blue-950 border border-blue-700 text-white w-44 md:w-56 focus:outline-none focus:ring-1 focus:ring-amber-400">
+          <button onclick="loginUser()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] px-3 py-1 rounded-lg font-bold transition shadow">
+            Xác Nhận
+          </button>
           <span id="userRoleBadge" class="bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full font-bold text-[11px] shadow-sm ml-1">
-            Khách xem
+            Đang xác thực...
           </span>
         </div>
       </div>
       
-      <!-- Menu phân hệ -->
+      <!-- Menu các phân hệ chính -->
       <div class="max-w-7xl mx-auto px-4 flex border-t border-blue-900/60 overflow-x-auto text-xs md:text-sm font-semibold">
         <button onclick="switchTab('tabList')" id="btnTabList" class="py-2.5 px-4 text-amber-400 border-b-2 border-amber-400 flex items-center gap-2 shrink-0">
           <i class="fa-solid fa-folder-tree"></i> Sổ Văn Bản 6 Cấp
@@ -79,10 +80,10 @@
       </div>
     </header>
 
-    <!-- Nội dung chính -->
+    <!-- Khung hiển thị nội dung -->
     <main class="max-w-7xl mx-auto p-4 md:p-6 w-full">
       
-      <!-- Alert thông báo -->
+      <!-- Alert thông báo trạng thái -->
       <div id="statusAlert" class="hidden mb-4 p-3.5 rounded-2xl text-xs md:text-sm font-medium flex items-center gap-3 shadow-sm">
         <i id="statusIcon" class="fa-solid fa-circle-notch fa-spin text-base"></i>
         <span id="statusMsg">Đang xử lý yêu cầu...</span>
@@ -127,14 +128,14 @@
                 </tr>
               </thead>
               <tbody id="docTableBody" class="divide-y divide-slate-100">
-                <tr><td colspan="8" class="text-center py-8 text-slate-400">Đang tải danh mục văn bản...</td></tr>
+                <tr><td colspan="8" class="text-center py-8 text-slate-400">Đang nạp dữ liệu từ Google Cloud...</td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- TAB 2: TIẾP NHẬN VĂN BẢN (PHÂN QUYỀN) -->
+      <!-- TAB 2: TIẾP NHẬN VĂN BẢN (PHÂN QUYỀN CHẶT CHẼ) -->
       <section id="tabAdd" class="hidden">
         <div id="noPermissionBox" class="hidden bg-white border border-amber-200 p-8 rounded-2xl text-center max-w-lg mx-auto shadow-sm">
           <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-3 text-2xl shadow-inner">
@@ -142,7 +143,7 @@
           </div>
           <h3 class="text-base font-bold text-slate-900 mb-1">Chức Năng Giới Hạn Thẩm Quyền</h3>
           <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Tài khoản của bạn đang có quyền <b>Giáo viên</b> (Xem, tải tệp và trích xuất báo cáo). Quyền đưa văn bản lên Google Drive thuộc về: <b>Admin, Hiệu trưởng, các Phó Hiệu trưởng, Văn thư, Trưởng bộ phận/Tổ trưởng</b>.
+            Tài khoản hiện tại có quyền <b>Giáo viên</b> (Xem, tải tệp và trích xuất báo cáo). Quyền đưa văn bản lên Google Drive thuộc về: <b>Admin, Hiệu trưởng, các Phó Hiệu trưởng, Văn thư, Trưởng bộ phận/Tổ trưởng</b>.
           </p>
           <button onclick="switchTab('tabList')" class="bg-blue-900 text-white font-bold text-xs px-5 py-2.5 rounded-xl hover:bg-blue-800 transition shadow">
             Quay Lại Sổ Văn Bản
@@ -162,6 +163,7 @@
             </span>
           </div>
 
+          <!-- Khối tải tệp -->
           <div class="mb-5 p-4 rounded-2xl border-2 border-dashed border-blue-300 bg-blue-50/50 hover:bg-blue-50/80 transition">
             <div class="flex flex-col md:flex-row items-center justify-between gap-3">
               <div class="flex items-center gap-3">
@@ -301,7 +303,7 @@
     </main>
   </div>
 
-  <!-- Footer Bản Quyền -->
+  <!-- Footer Bản Quyền Chính Thức -->
   <footer class="bg-white border-t border-slate-200 py-4 px-4 mt-8">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-slate-600">
       <div>
@@ -314,15 +316,21 @@
   </footer>
 
   <script>
+    // =========================================================================
+    // CẤU HÌNH TỰ ĐỘNG LIÊN KẾT GOOGLE CLOUD (BACKEND APPS SCRIPT)
+    // =========================================================================
+    // Thay thế chính xác URL Web App đã triển khai của bạn tại đây:
+    const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzk_2veltHTGK5_6J95oUmirSTjhupu-iDEK_0Z6urK1nZcdLNTofvfqYMwhDbykQVK/exec";
+    
     var globalDocList = [];
     var selectedDocIds = [];
     var currentUser = { email: "", role: "Giáo viên", department: "", permissions: {} };
 
-    // HÀM KẾT NỐI BACKEND (DÙNG CHUNG CHO CẢ VERCEL VÀ GOOGLE APPS SCRIPT)
+    // HÀM GỌI BACKEND TRỰC TIẾP QUA FETCH CỦA VERCEL
     async function apiCall(action, data) {
       data = data || {};
       
-      // Nếu chạy trực tiếp trong Google Apps Script
+      // Nếu đang mở trực tiếp trong Apps Script
       if (typeof google !== "undefined" && google.script && google.script.run) {
         return new Promise(function(resolve, reject) {
           if (action === "getUserInfo") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).getUserInfoByEmail(data.email);
@@ -336,13 +344,8 @@
         });
       }
 
-      // Nếu chạy trên Vercel / GitHub Pages (qua Fetch)
-      var gasUrl = localStorage.getItem('GAS_WEBAPP_URL');
-      if (!gasUrl) {
-        throw new Error("Vui lòng dán link 'Google Web App URL' ở góc trên màn hình rồi bấm 'Lưu Link'!");
-      }
-
-      var res = await fetch(gasUrl, {
+      // Khi chạy trên Vercel: Dùng URL mặc định nhúng sẵn
+      var res = await fetch(DEFAULT_GAS_URL, {
         method: "POST",
         body: JSON.stringify({ action: action, data: data })
       });
@@ -358,42 +361,33 @@
       var savedModel = localStorage.getItem('PREF_GEMINI_MODEL');
       if (savedModel) document.getElementById('modelSelector').value = savedModel;
 
-      var savedUrl = localStorage.getItem('GAS_WEBAPP_URL');
-      if (savedUrl) document.getElementById('gasUrlInput').value = savedUrl;
-
-      var savedEmail = localStorage.getItem('USER_EMAIL');
-      if (savedEmail) document.getElementById('userEmailInput').value = savedEmail;
+      // Khôi phục email phiên làm việc
+      var savedEmail = localStorage.getItem('USER_EMAIL') || "baoquoc.c3kl@gmail.com";
+      document.getElementById('userEmailInput').value = savedEmail;
 
       loginUser();
     };
 
-    function saveConfig() {
+    function saveApiKey() {
       var k = document.getElementById('geminiKeyInput').value.trim();
       var m = document.getElementById('modelSelector').value;
       if (!k) return alert("Vui lòng điền Gemini API Key!");
       localStorage.setItem('GEMINI_KEY', k);
       localStorage.setItem('PREF_GEMINI_MODEL', m);
-      alert("Đã lưu API Key và lựa chọn model " + m + " thành công!");
-    }
-
-    function saveGasUrl() {
-      var url = document.getElementById('gasUrlInput').value.trim();
-      if (!url) return alert("Vui lòng dán link Google Web App URL!");
-      localStorage.setItem('GAS_WEBAPP_URL', url);
-      alert("Đã lưu link Web App kết nối Drive & Sheets thành công!");
-      loginUser();
+      alert("Đã lưu API Key và thiết lập model " + m + " thành công!");
     }
 
     function loginUser() {
       var email = document.getElementById('userEmailInput').value.trim();
       if (email) localStorage.setItem('USER_EMAIL', email);
 
-      showLoading("Đang xác thực thông tin và kiểm tra quyền...");
+      showLoading("Đang kết nối hệ thống phân quyền...");
       apiCall("getUserInfo", { email: email })
         .then(function(u) {
           hideStatus();
           currentUser = u;
           document.getElementById('userRoleBadge').innerText = u.role;
+          document.getElementById('userDeptBadge').innerText = u.department || "Khánh Lâm";
 
           if (u.permissions.canUpload) {
             document.getElementById('uploadAuthorizedBox').classList.remove('hidden');
@@ -417,7 +411,10 @@
 
           loadDocuments();
         })
-        .catch(showError);
+        .catch(function(err) {
+          showError(err);
+          loadDocuments();
+        });
     }
 
     function switchTab(tabId) {
@@ -434,7 +431,7 @@
     }
 
     function initDatabase() {
-      showLoading("Đang nạp dữ liệu 6 cấp và khởi tạo bảng phân quyền...");
+      showLoading("Đang nạp dữ liệu mẫu 6 cấp và đồng bộ bảng phân quyền...");
       var email = document.getElementById('userEmailInput').value.trim();
       apiCall("initDatabase", { email: email })
         .then(function(res) {
@@ -445,7 +442,7 @@
     }
 
     function loadDocuments() {
-      showLoading("Đang đọc sổ văn bản 6 cấp...");
+      showLoading("Đang tải danh mục văn bản 6 cấp...");
       apiCall("getAllDocuments")
         .then(function(data) {
           globalDocList = data || [];
