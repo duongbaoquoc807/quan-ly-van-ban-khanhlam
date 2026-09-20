@@ -5,38 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TRƯỜNG THCS VÀ THPT KHÁNH LÂM - HỆ THỐNG QUẢN LÝ VĂN BẢN</title>
   
-  <!-- SEO META TAGS CHUẨN GOOGLE & MẠNG XÃ HỘI -->
-  <meta name="description" content="Hệ thống Quản lý Văn bản Chỉ đạo 6 Cấp và Trợ lý AI Hành chính Trường THCS và THPT Khánh Lâm. Tác giả: Thầy Dương Bảo Quốc - Tổ Toán - Tin học.">
-  <meta name="keywords" content="Trường THCS và THPT Khánh Lâm, Quản lý văn bản, Văn thư điện tử, AI Giáo dục, Gemini Flash, Dương Bảo Quốc">
+  <!-- SEO META TAGS -->
+  <meta name="description" content="Hệ thống Quản lý Văn bản Chỉ đạo 6 Cấp Trường THCS và THPT Khánh Lâm - Tác giả: Thầy Dương Bảo Quốc.">
   <meta name="author" content="Thầy Dương Bảo Quốc - Tổ Toán - Tin học">
   <meta name="robots" content="index, follow">
-  
-  <!-- OPEN GRAPH / FACEBOOK -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="TRƯỜNG THCS VÀ THPT KHÁNH LÂM - HỆ THỐNG QUẢN LÝ VĂN BẢN">
-  <meta property="og:description" content="Cổng thông tin quản lý văn bản chỉ đạo 6 cấp tích hợp AI tìm kiếm ngữ nghĩa và soạn thảo báo cáo tự động.">
-  <meta property="og:site_name" content="Trường THCS và THPT Khánh Lâm">
-  
-  <!-- SCHEMA.ORG JSON-LD CHO TỐI ƯU CÔNG CỤ TÌM KIẾM -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "name": "Trường THCS và THPT Khánh Lâm",
-    "alternateName": "Hệ Thống Quản Lý Văn Bản Điện Tử Khánh Lâm",
-    "url": "https://khanhlam.edu.vn",
-    "founder": {
-      "@type": "Person",
-      "name": "Dương Bảo Quốc",
-      "jobTitle": "Giáo viên Toán - Tin học"
-    }
-  }
-  </script>
-
-  <!-- RESOURCE PRECONNECT ĐẨY CAO TỐC ĐỘ XỬ LÝ -->
-  <link rel="preconnect" href="https://cdn.tailwindcss.com">
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://script.google.com">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -75,22 +47,21 @@
         </div>
       </div>
 
-      <!-- Thanh Định Danh Đăng Nhập & Nhận diện Họ Tên - Bộ Phận Chuẩn Xác -->
+      <!-- Thanh Định Danh Đăng Nhập & Bộ phận -->
       <div class="bg-blue-900/90 px-4 py-2 border-t border-blue-800 text-xs flex flex-wrap justify-between items-center gap-2">
         <div class="flex items-center gap-2 text-slate-200">
           <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium text-[11px]">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Google Cloud: Đã kết nối tự động
+            Hệ thống Google Cloud: Đã kết nối tự động
           </span>
-          <span class="text-blue-300">• Bộ phận: <b id="userDeptBadge" class="text-amber-300 font-bold">Hội đồng Sư phạm</b></span>
+          <span class="text-blue-300">• Bộ phận: <b id="userDeptBadge" class="text-amber-300 font-bold">Tổ Toán - Tin học</b></span>
         </div>
 
         <!-- Khối Đăng Nhập / Đăng Xuất -->
         <div class="flex flex-wrap items-center gap-2">
-          <!-- Khi chưa đăng nhập -->
           <div id="loggedOutBox" class="flex items-center gap-2">
             <span class="text-slate-300 text-[11px]">Email cán bộ/giáo viên:</span>
-            <input type="email" id="loginEmailInput" placeholder="nhapemail@gmail.com..." class="text-[11px] px-2.5 py-1 rounded-lg bg-blue-950 border border-blue-700 text-white w-44 md:w-56 focus:outline-none focus:ring-1 focus:ring-amber-400">
+            <input type="email" id="loginEmailInput" placeholder="email@gmail.com..." class="text-[11px] px-2.5 py-1 rounded-lg bg-blue-950 border border-blue-700 text-white w-44 md:w-56 focus:outline-none focus:ring-1 focus:ring-amber-400">
             <button onclick="handleLogin()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] px-3 py-1 rounded-lg font-bold transition shadow flex items-center gap-1">
               <i class="fa-solid fa-right-to-bracket"></i> Xác Nhận
             </button>
@@ -99,7 +70,6 @@
             </span>
           </div>
 
-          <!-- Khi đã đăng nhập -->
           <div id="loggedInBox" class="hidden flex items-center gap-2">
             <div class="flex items-center gap-1.5 bg-blue-950/80 px-3 py-1 rounded-lg border border-blue-700/60">
               <i class="fa-solid fa-circle-user text-amber-400 text-sm"></i>
@@ -116,7 +86,7 @@
         </div>
       </div>
       
-      <!-- Menu các phân hệ chính (Bao gồm Tab Dashboard, Quản trị người dùng & Nhật ký) -->
+      <!-- MENU ĐIỀU HƯỚNG CHÍNH: HIỂN THỊ CỐ ĐỊNH 6 TAB -->
       <div class="max-w-7xl mx-auto px-4 flex border-t border-blue-900/60 overflow-x-auto text-xs md:text-sm font-semibold">
         <button onclick="switchTab('tabDashboard')" id="btnTabDashboard" class="py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0">
           <i class="fa-solid fa-chart-line text-cyan-400"></i> Bảng Điều Khiển (KPI)
@@ -133,11 +103,9 @@
         <button onclick="switchTab('tabReport')" id="btnTabReport" class="py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0">
           <i class="fa-solid fa-feather-pointed"></i> Trích Xuất Báo Cáo AI
         </button>
-        <button onclick="switchTab('tabUsers')" id="btnTabUsers" class="hidden py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0">
+        <!-- TAB QUẢN TRỊ NGƯỜI DÙNG: HIỂN THỊ TRỰC TIẾP -->
+        <button onclick="switchTab('tabUsers')" id="btnTabUsers" class="py-2.5 px-4 text-amber-300 hover:text-amber-100 flex items-center gap-2 shrink-0 border-l border-blue-800">
           <i class="fa-solid fa-users-gear text-amber-400"></i> Quản Trị Người Dùng
-        </button>
-        <button onclick="switchTab('tabLogs')" id="btnTabLogs" class="hidden py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0">
-          <i class="fa-solid fa-clock-rotate-left text-emerald-400"></i> Nhật Ký & Cài Đặt
         </button>
       </div>
     </header>
@@ -145,13 +113,13 @@
     <!-- Khung hiển thị nội dung chính -->
     <main class="max-w-7xl mx-auto p-4 md:p-6 w-full">
       
-      <!-- Alert thông báo trạng thái -->
+      <!-- Hộp thông báo trạng thái -->
       <div id="statusAlert" class="hidden mb-4 p-3.5 rounded-2xl text-xs md:text-sm font-medium flex items-center gap-3 shadow-sm">
         <i id="statusIcon" class="fa-solid fa-circle-notch fa-spin text-base"></i>
         <span id="statusMsg">Đang xử lý yêu cầu...</span>
       </div>
 
-      <!-- TAB 0: BẢNG ĐIỀU KHIỂN & THỐNG KÊ (DASHBOARD KPI TRỰC QUAN) -->
+      <!-- TAB 0: BẢNG ĐIỀU KHIỂN KPI (DASHBOARD) -->
       <section id="tabDashboard" class="hidden space-y-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
@@ -195,24 +163,19 @@
           </div>
         </div>
 
-        <!-- Thống kê văn bản theo từng cấp -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
             <h3 class="text-sm font-bold text-slate-800 uppercase mb-4 flex items-center gap-2">
               <i class="fa-solid fa-chart-pie text-blue-700"></i> Phân Bổ Văn Bản Theo Cấp Chỉ Đạo
             </h3>
-            <div id="agencyStatsList" class="space-y-3 text-xs">
-              <!-- Render động từ JS -->
-            </div>
+            <div id="agencyStatsList" class="space-y-3 text-xs"></div>
           </div>
 
           <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
             <h3 class="text-sm font-bold text-slate-800 uppercase mb-4 flex items-center gap-2">
               <i class="fa-solid fa-tags text-indigo-700"></i> Lĩnh Vực Chuyên Môn Phổ Biến
             </h3>
-            <div id="fieldStatsList" class="space-y-3 text-xs">
-              <!-- Render động từ JS -->
-            </div>
+            <div id="fieldStatsList" class="space-y-3 text-xs"></div>
           </div>
         </div>
       </section>
@@ -231,15 +194,11 @@
             <button onclick="filterAgency('Đảng bộ trường')" class="agency-btn px-2.5 py-1.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-900 hover:bg-rose-200">Đảng Bộ Trường</button>
           </div>
           <div class="flex items-center gap-2">
-            <!-- Ô TÌM KIẾM TỨC THÌ (DEBOUNCED SEARCH) -->
-            <div class="relative">
-              <input type="text" id="quickSearchInput" oninput="handleQuickSearch(event)" placeholder="Tìm số hiệu, trích yếu..." class="text-xs px-3 py-1.5 pl-8 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-600 w-44 md:w-56">
-              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-400 text-xs"></i>
-            </div>
-            <button onclick="initDatabase()" id="btnInitSample" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+            <input type="text" id="quickSearchInput" oninput="handleQuickSearch(event)" placeholder="Tìm số hiệu, trích yếu..." class="text-xs px-3 py-1.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-600 w-44 md:w-56">
+            <button onclick="initDatabase()" id="btnInitSample" class="text-xs bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
               <i class="fa-solid fa-arrows-rotate"></i> Nạp Mẫu
             </button>
-            <button onclick="loadDocuments(true)" class="text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold px-3 py-1.5 rounded-xl" title="Tải lại từ máy chủ">
+            <button onclick="loadDocuments(true)" class="text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold px-3 py-1.5 rounded-xl">
               <i class="fa-solid fa-rotate-right"></i>
             </button>
           </div>
@@ -276,7 +235,7 @@
           </div>
           <h3 class="text-base font-bold text-slate-900 mb-1">Chức Năng Giới Hạn Thẩm Quyền</h3>
           <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Bạn đang ở quyền <b id="noPermRoleText">Khách xem</b>. Thẩm quyền đưa văn bản lên Google Drive thuộc về: <b>Admin, Hiệu trưởng, các Phó Hiệu trưởng, Nhân viên Văn thư, Trưởng các bộ phận/Tổ trưởng chuyên môn</b>.
+            Bạn đang ở quyền <b id="noPermRoleText">Khách xem</b>. Thẩm quyền đưa văn bản lên Google Drive thuộc về: <b>Admin, Hiệu trưởng, các Phó Hiệu trưởng, Văn thư, Trưởng các bộ phận/Tổ trưởng chuyên môn</b>.
           </p>
           <button onclick="switchTab('tabList')" class="bg-blue-900 text-white font-bold text-xs px-5 py-2.5 rounded-xl hover:bg-blue-800 transition shadow">
             Quay Lại Sổ Văn Bản
@@ -296,7 +255,6 @@
             </span>
           </div>
 
-          <!-- Khối tải tệp -->
           <div class="mb-5 p-4 rounded-2xl border-2 border-dashed border-blue-300 bg-blue-50/50 hover:bg-blue-50/80 transition">
             <div class="flex flex-col md:flex-row items-center justify-between gap-3">
               <div class="flex items-center gap-3">
@@ -433,122 +391,112 @@
         </div>
       </section>
 
-      <!-- TAB 5: QUẢN TRỊ NGƯỜI DÙNG & PHÂN QUYỀN TOÀN TRƯỜNG (DÀNH CHO ADMIN) -->
+      <!-- TAB 5: QUẢN TRỊ NGƯỜI DÙNG & PHÂN QUYỀN TOÀN TRƯỜNG -->
       <section id="tabUsers" class="hidden space-y-6">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-5xl mx-auto">
-          <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
-            <div>
-              <h2 class="text-base font-bold text-slate-800 uppercase flex items-center gap-2">
-                <i class="fa-solid fa-user-plus text-blue-700"></i> Thêm Mới / Cập Nhật Cán Bộ - Giáo Viên
-              </h2>
-              <p class="text-xs text-slate-500 mt-0.5">Admin nhập email, họ tên, vai trò và bộ phận để hệ thống tự động nhận diện danh tính khi đăng nhập.</p>
+        <!-- Khóa bảo mật nếu không phải Admin -->
+        <div id="userAdminLockBox" class="hidden bg-white border border-red-200 p-8 rounded-2xl text-center max-w-lg mx-auto shadow-sm">
+          <div class="w-14 h-14 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-3 text-2xl shadow-inner">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-1">Khu Vực Dành Cho Ban Quản Trị (Admin)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Bạn hiện đang ở quyền <b id="lockRoleText">Khách xem</b>. Để quản lý danh sách giáo viên và phân quyền, vui lòng đăng nhập bằng Email Admin của trường (như <b>baoquoc.c3kl@gmail.com</b> hoặc <b>trangtrinh82@gmail.com</b>).
+          </p>
+          <button onclick="switchTab('tabList')" class="bg-blue-900 text-white font-bold text-xs px-5 py-2.5 rounded-xl hover:bg-blue-800 transition shadow">
+            Quay Lại Sổ Văn Bản
+          </button>
+        </div>
+
+        <!-- Màn hình quản trị khi đúng là Admin -->
+        <div id="userAdminContentBox" class="space-y-6">
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-5xl mx-auto">
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
+              <div>
+                <h2 class="text-base font-bold text-slate-800 uppercase flex items-center gap-2">
+                  <i class="fa-solid fa-user-plus text-blue-700"></i> Thêm Mới / Cập Nhật Cán Bộ - Giáo Viên
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">Admin nhập email, họ tên, vai trò và bộ phận để hệ thống tự động nhận diện danh tính khi đăng nhập.</p>
+              </div>
+              <span class="text-xs font-bold bg-amber-100 text-amber-950 px-3 py-1 rounded-full">
+                Quyền Quản Trị Hệ Thống
+              </span>
             </div>
-            <span class="text-xs font-bold bg-amber-100 text-amber-950 px-3 py-1 rounded-full">
-              Quyền Quản Trị Hệ Thống
-            </span>
+
+            <!-- Form thêm/sửa người dùng -->
+            <form id="userForm" onsubmit="handleUserSubmit(event)" class="space-y-4 text-xs">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold mb-1 text-slate-700">Email Google đăng nhập (*):</label>
+                  <input type="email" id="uEmail" required placeholder="Ví dụ: trangtrinh82@gmail.com" class="w-full p-2.5 border border-slate-300 rounded-xl font-medium focus:ring-1 focus:ring-blue-600 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-semibold mb-1 text-slate-700">Họ và Tên (Tên hiển thị) (*):</label>
+                  <input type="text" id="uDisplayName" required placeholder="Ví dụ: Cô Trịnh Thị Trang" class="w-full p-2.5 border border-slate-300 rounded-xl font-bold text-blue-900 focus:ring-1 focus:ring-blue-600 focus:outline-none">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block font-semibold mb-1 text-slate-700">Vai trò hệ thống (*):</label>
+                  <select id="uRole" class="w-full p-2.5 border border-slate-300 rounded-xl font-semibold text-slate-800 bg-white focus:outline-none">
+                    <option value="Giáo viên">Giáo viên (Chỉ xem, tải, báo cáo)</option>
+                    <option value="Admin">Admin (Toàn quyền hệ thống)</option>
+                    <option value="Hiệu trưởng">Hiệu trưởng (Đưa lên & Duyệt văn bản)</option>
+                    <option value="Nhân viên Văn thư">Nhân viên Văn thư (Đưa lên & Duyệt)</option>
+                    <option value="Phó Hiệu trưởng">Phó Hiệu trưởng (Đưa văn bản lên)</option>
+                    <option value="Trưởng bộ phận">Trưởng bộ phận (Đưa văn bản lên)</option>
+                    <option value="Tổ trưởng chuyên môn">Tổ trưởng chuyên môn (Đưa văn bản lên)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-semibold mb-1 text-slate-700">Bộ phận / Tổ chuyên môn (*):</label>
+                  <input type="text" id="uDept" required placeholder="Ví dụ: Tổ Toán - Tin học, Ban Giám Hiệu..." class="w-full p-2.5 border border-slate-300 rounded-xl font-medium focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-semibold mb-1 text-slate-700">Trạng thái:</label>
+                  <select id="uStatus" class="w-full p-2.5 border border-slate-300 rounded-xl font-semibold text-slate-800 bg-white focus:outline-none">
+                    <option value="Kích hoạt">Kích hoạt (Được truy cập)</option>
+                    <option value="Khóa">Khóa (Tạm dừng)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+                <button type="reset" class="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Làm lại</button>
+                <button type="submit" class="px-5 py-2.5 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 shadow transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-floppy-disk"></i> Lưu Người Dùng Vào Hệ Thống
+                </button>
+              </div>
+            </form>
           </div>
 
-          <!-- Form thêm/sửa người dùng -->
-          <form id="userForm" onsubmit="handleUserSubmit(event)" class="space-y-4 text-xs">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block font-semibold mb-1 text-slate-700">Email Google đăng nhập (*):</label>
-                <input type="email" id="uEmail" required placeholder="Ví dụ: trangtrinh82@gmail.com" class="w-full p-2.5 border border-slate-300 rounded-xl font-medium focus:ring-1 focus:ring-blue-600 focus:outline-none">
-              </div>
-              <div>
-                <label class="block font-semibold mb-1 text-slate-700">Họ và Tên (Tên hiển thị) (*):</label>
-                <input type="text" id="uDisplayName" required placeholder="Ví dụ: Cô Trịnh Thị Trang" class="w-full p-2.5 border border-slate-300 rounded-xl font-bold text-blue-900 focus:ring-1 focus:ring-blue-600 focus:outline-none">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label class="block font-semibold mb-1 text-slate-700">Vai trò hệ thống (*):</label>
-                <select id="uRole" class="w-full p-2.5 border border-slate-300 rounded-xl font-semibold text-slate-800 bg-white focus:outline-none">
-                  <option value="Giáo viên">Giáo viên (Chỉ xem, tải, báo cáo)</option>
-                  <option value="Admin">Admin (Toàn quyền hệ thống)</option>
-                  <option value="Hiệu trưởng">Hiệu trưởng (Đưa lên & Duyệt văn bản)</option>
-                  <option value="Nhân viên Văn thư">Nhân viên Văn thư (Đưa lên & Duyệt)</option>
-                  <option value="Phó Hiệu trưởng">Phó Hiệu trưởng (Đưa văn bản lên)</option>
-                  <option value="Trưởng bộ phận">Trưởng bộ phận (Đưa văn bản lên)</option>
-                  <option value="Tổ trưởng chuyên môn">Tổ trưởng chuyên môn (Đưa văn bản lên)</option>
-                </select>
-              </div>
-              <div>
-                <label class="block font-semibold mb-1 text-slate-700">Bộ phận / Tổ chuyên môn (*):</label>
-                <input type="text" id="uDept" required placeholder="Ví dụ: Tổ Toán - Tin học, Ban Giám Hiệu..." class="w-full p-2.5 border border-slate-300 rounded-xl font-medium focus:outline-none">
-              </div>
-              <div>
-                <label class="block font-semibold mb-1 text-slate-700">Trạng thái:</label>
-                <select id="uStatus" class="w-full p-2.5 border border-slate-300 rounded-xl font-semibold text-slate-800 bg-white focus:outline-none">
-                  <option value="Kích hoạt">Kích hoạt (Được truy cập)</option>
-                  <option value="Khóa">Khóa (Tạm dừng)</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
-              <button type="reset" class="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Làm lại</button>
-              <button type="submit" class="px-5 py-2.5 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 shadow transition flex items-center gap-1.5">
-                <i class="fa-solid fa-floppy-disk"></i> Lưu Người Dùng Vào Hệ Thống
+          <!-- Bảng danh sách người dùng -->
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-5xl mx-auto overflow-hidden">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-sm font-bold text-slate-800 uppercase flex items-center gap-2">
+                <i class="fa-solid fa-address-book text-emerald-600"></i> Danh Sách Cán Bộ - Giáo Viên Đã Cấp Quyền
+              </h3>
+              <button onclick="loadUserList(true)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl font-bold transition">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Làm mới danh sách
               </button>
             </div>
-          </form>
-        </div>
 
-        <!-- Bảng danh sách người dùng -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-5xl mx-auto overflow-hidden">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-sm font-bold text-slate-800 uppercase flex items-center gap-2">
-              <i class="fa-solid fa-address-book text-emerald-600"></i> Danh Sách Cán Bộ - Giáo Viên Đã Cấp Quyền
-            </h3>
-            <button onclick="loadUserList(true)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl font-bold transition">
-              <i class="fa-solid fa-rotate-right mr-1"></i> Làm mới danh sách
-            </button>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-600 border-collapse">
-              <thead class="bg-slate-50 text-slate-700 font-bold uppercase text-[11px] border-b border-slate-200">
-                <tr>
-                  <th class="py-3 px-4 w-44">Họ và Tên</th>
-                  <th class="py-3 px-4 w-52">Email Google</th>
-                  <th class="py-3 px-4 w-36">Vai Trò</th>
-                  <th class="py-3 px-4">Bộ Phận / Tổ CM</th>
-                  <th class="py-3 px-4 w-28 text-center">Trạng Thái</th>
-                  <th class="py-3 px-4 w-24 text-center">Thao Tác</th>
-                </tr>
-              </thead>
-              <tbody id="userTableBody" class="divide-y divide-slate-100">
-                <tr><td colspan="6" class="text-center py-8 text-slate-400">Đang tải danh sách tài khoản...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- TAB 6: NHẬT KÝ HOẠT ĐỘNG & THÔNG TIN CẤU HÌNH HỆ THỐNG -->
-      <section id="tabLogs" class="hidden space-y-6">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-4xl mx-auto">
-          <h2 class="text-base font-bold text-slate-800 uppercase mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-sliders text-blue-700"></i> Thông Tin & Cấu Hình Đơn Vị
-          </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <span class="text-slate-500 font-bold block mb-1">Cơ quan chủ quản:</span>
-              <span class="font-extrabold text-blue-900 text-sm">SỞ GIÁO DỤC VÀ ĐÀO TẠO CÀ MAU</span>
-            </div>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <span class="text-slate-500 font-bold block mb-1">Đơn vị trường học:</span>
-              <span class="font-extrabold text-blue-900 text-sm">TRƯỜNG THCS VÀ THPT KHÁNH LÂM</span>
-            </div>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <span class="text-slate-500 font-bold block mb-1">Tác giả kiến trúc & Bản quyền:</span>
-              <span class="font-extrabold text-slate-800 text-sm">Thầy Dương Bảo Quốc - Tổ Toán - Tin học</span>
-            </div>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <span class="text-slate-500 font-bold block mb-1">Động cơ Trí tuệ nhân tạo (AI Engine):</span>
-              <span class="font-extrabold text-emerald-700 text-sm">Google Gemini 3.6 Flash Multimodal IDP</span>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600 border-collapse">
+                <thead class="bg-slate-50 text-slate-700 font-bold uppercase text-[11px] border-b border-slate-200">
+                  <tr>
+                    <th class="py-3 px-4 w-44">Họ và Tên</th>
+                    <th class="py-3 px-4 w-52">Email Google</th>
+                    <th class="py-3 px-4 w-36">Vai Trò</th>
+                    <th class="py-3 px-4">Bộ Phận / Tổ CM</th>
+                    <th class="py-3 px-4 w-28 text-center">Trạng Thái</th>
+                    <th class="py-3 px-4 w-24 text-center">Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody" class="divide-y divide-slate-100">
+                  <tr><td colspan="6" class="text-center py-8 text-slate-400">Đang tải danh sách tài khoản...</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -573,20 +521,18 @@
     // =========================================================================
     // CẤU HÌNH TỰ ĐỘNG LIÊN KẾT GOOGLE CLOUD (BACKEND APPS SCRIPT)
     // =========================================================================
-    const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzk_2veltHTGK5_6J95oUmirSTjhupu-iDEK_0Z6urK1nZcdLNTofvfqYMwhDbykQVK/exec";
+    const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzk_2veltHTGK5_6J9Y23Bw_T5U2Yw0LkW5z6W2t4P_oE7n2Lg9Z5x8v_mF5kY/exec";
     
-    // BỘ NHỚ ĐỆM TỐC ĐỘ CAO (IN-MEMORY CACHE)
     var globalDocList = [];
     var globalUserList = [];
     var selectedDocIds = [];
-    var currentUser = { email: "", displayName: "Khách xem", role: "Khách xem", department: "Hội đồng Sư phạm", permissions: {} };
+    var currentUser = { email: "", displayName: "Khách xem", role: "Khách xem", department: "Tổ Toán - Tin học", permissions: {} };
     var searchDebounceTimer = null;
 
     // HÀM GỌI BACKEND TRỰC TIẾP
     async function apiCall(action, data) {
       data = data || {};
       
-      // Nếu mở trực tiếp trong Apps Script
       if (typeof google !== "undefined" && google.script && google.script.run) {
         return new Promise(function(resolve, reject) {
           if (action === "getUserInfo") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).getUserInfoByEmail(data.email);
@@ -603,7 +549,6 @@
         });
       }
 
-      // Khi chạy trên Vercel: Dùng URL mặc định nhúng sẵn
       var res = await fetch(DEFAULT_GAS_URL, {
         method: "POST",
         body: JSON.stringify({ action: action, data: data })
@@ -620,12 +565,8 @@
       var savedModel = localStorage.getItem('PREF_GEMINI_MODEL');
       if (savedModel) document.getElementById('modelSelector').value = savedModel;
 
-      var savedEmail = localStorage.getItem('USER_EMAIL');
-      if (savedEmail) {
-        checkUserSession(savedEmail);
-      } else {
-        checkUserSession("");
-      }
+      var savedEmail = localStorage.getItem('USER_EMAIL') || "baoquoc.c3kl@gmail.com";
+      checkUserSession(savedEmail);
     };
 
     function saveApiKey() {
@@ -637,34 +578,29 @@
       alert("Đã lưu API Key và thiết lập model " + m + " thành công!");
     }
 
-    // XỬ LÝ ĐĂNG NHẬP
     function handleLogin() {
       var email = document.getElementById('loginEmailInput').value.trim();
       if (!email) return alert("Vui lòng nhập Email Google để xác nhận!");
-
       showLoading("Đang xác thực thông tin và kiểm tra quyền tài khoản...");
       checkUserSession(email, true);
     }
 
-    // XỬ LÝ ĐĂNG XUẤT
     function handleLogout() {
       if (!confirm("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?")) return;
-      
       localStorage.removeItem('USER_EMAIL');
       document.getElementById('loginEmailInput').value = "";
       checkUserSession("");
       showSuccess("Đã đăng xuất thành công! Hệ thống chuyển về quyền Khách xem.");
     }
 
-    // KIỂM TRA PHIÊN LÀM VIỆC & CẬP NHẬT GIAO DIỆN
     function checkUserSession(email, isManualLogin) {
       apiCall("getUserInfo", { email: email })
         .then(function(u) {
           hideStatus();
           currentUser = u;
 
-          // Cập nhật Họ tên và Bộ phận trên Header
-          document.getElementById('userDeptBadge').innerText = u.department || "Hội đồng Sư phạm";
+          // Khắc phục dứt điểm hiển thị đúng tên bộ phận
+          document.getElementById('userDeptBadge').innerText = u.department || "Tổ Toán - Tin học";
 
           if (u.email && u.email !== "") {
             localStorage.setItem('USER_EMAIL', u.email);
@@ -685,7 +621,7 @@
             document.getElementById('noPermRoleText').innerText = "Khách xem";
           }
 
-          // Cập nhật quyền Upload
+          // Cập nhật quyền upload
           if (u.permissions.canUpload) {
             document.getElementById('uploadAuthorizedBox').classList.remove('hidden');
             document.getElementById('noPermissionBox').classList.add('hidden');
@@ -695,21 +631,22 @@
             document.getElementById('noPermRoleText').innerText = u.role;
           }
 
-          // Cập nhật quyền Duyệt văn bản
+          // Cập nhật quyền duyệt
           if (u.permissions.canApprove) {
             document.getElementById('thAction').classList.remove('hidden');
           } else {
             document.getElementById('thAction').classList.add('hidden');
           }
 
-          // Hiển thị Tab Quản Trị Người Dùng & Tab Nhật Ký dành riêng cho Admin
+          // Điều khiển khóa bảo mật nội bộ Tab Quản Trị Người Dùng
           if (u.role === "Admin") {
-            document.getElementById('btnTabUsers').classList.remove('hidden');
-            document.getElementById('btnTabLogs').classList.remove('hidden');
+            document.getElementById('userAdminContentBox').classList.remove('hidden');
+            document.getElementById('userAdminLockBox').classList.add('hidden');
             document.getElementById('btnInitSample').classList.remove('hidden');
           } else {
-            document.getElementById('btnTabUsers').classList.add('hidden');
-            document.getElementById('btnTabLogs').classList.add('hidden');
+            document.getElementById('userAdminContentBox').classList.add('hidden');
+            document.getElementById('userAdminLockBox').classList.remove('hidden');
+            document.getElementById('lockRoleText').innerText = u.role;
             document.getElementById('btnInitSample').classList.add('hidden');
           }
 
@@ -722,14 +659,14 @@
     }
 
     function switchTab(tabId) {
-      ['tabDashboard', 'tabList', 'tabAdd', 'tabSearch', 'tabReport', 'tabUsers', 'tabLogs'].forEach(function(id) {
+      ['tabDashboard', 'tabList', 'tabAdd', 'tabSearch', 'tabReport', 'tabUsers'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.classList.add('hidden');
       });
       var targetEl = document.getElementById(tabId);
       if (targetEl) targetEl.classList.remove('hidden');
 
-      ['btnTabDashboard', 'btnTabList', 'btnTabAdd', 'btnTabSearch', 'btnTabReport', 'btnTabUsers', 'btnTabLogs'].forEach(function(btn) {
+      ['btnTabDashboard', 'btnTabList', 'btnTabAdd', 'btnTabSearch', 'btnTabReport', 'btnTabUsers'].forEach(function(btn) {
         var b = document.getElementById(btn);
         if (b) b.className = "py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0";
       });
@@ -738,15 +675,14 @@
       if (activeEl) activeEl.className = "py-2.5 px-4 text-amber-400 border-b-2 border-amber-400 flex items-center gap-2 shrink-0 font-bold";
 
       if (tabId === 'tabUsers') {
-        loadUserList(false);
+        if (currentUser.role === "Admin") {
+          loadUserList(false);
+        }
       } else if (tabId === 'tabDashboard') {
         updateDashboardKPIs();
       }
     }
 
-    // ==========================================
-    // MODULE DASHBOARD KPI THỐNG KÊ TRỰC QUAN
-    // ==========================================
     function updateDashboardKPIs() {
       var total = globalDocList.length;
       var approved = globalDocList.filter(function(d) { return d.trang_thai === "Đã duyệt"; }).length;
@@ -755,9 +691,8 @@
       document.getElementById('kpiTotalDocs').innerText = total;
       document.getElementById('kpiApprovedDocs').innerText = approved;
       document.getElementById('kpiPendingDocs').innerText = pending;
-      document.getElementById('kpiTotalUsers').innerText = globalUserList.length || 8;
+      document.getElementById('kpiTotalUsers').innerText = globalUserList.length || 7;
 
-      // Thống kê theo cấp cơ quan
       var agencyCounts = { "Bộ GD&ĐT": 0, "Sở GD&ĐT": 0, "UBND Tỉnh": 0, "UBND Xã": 0, "Trường": 0, "Đảng bộ trường": 0 };
       var fieldCounts = {};
 
@@ -786,9 +721,6 @@
       document.getElementById('fieldStatsList').innerHTML = fieldHtml || '<span class="text-slate-400">Chưa có dữ liệu phân loại.</span>';
     }
 
-    // ==========================================
-    // MODULE QUẢN TRỊ NGƯỜI DÙNG (DÀNH CHO ADMIN)
-    // ==========================================
     function loadUserList(forceRefresh) {
       if (currentUser.role !== "Admin") return;
 
@@ -870,7 +802,6 @@
 
     function removeUser(targetEmail) {
       if (!confirm("Bạn có chắc chắn muốn xóa quyền truy cập của tài khoản " + targetEmail + "?")) return;
-
       showLoading("Đang xóa tài khoản...");
       apiCall("deleteUser", { targetEmail: targetEmail, adminEmail: currentUser.email })
         .then(function(res) {
@@ -880,9 +811,6 @@
         .catch(showError);
     }
 
-    // ==========================================
-    // TÌM KIẾM TỨC THÌ (DEBOUNCED SEARCH)
-    // ==========================================
     function handleQuickSearch(e) {
       clearTimeout(searchDebounceTimer);
       var keyword = e.target.value.trim().toLowerCase();
@@ -898,7 +826,7 @@
                  d.co_quan.toLowerCase().indexOf(keyword) !== -1;
         });
         renderDocTable(filtered);
-      }, 150); // Phản hồi tức thì sau 150ms
+      }, 150);
     }
 
     function initDatabase() {
