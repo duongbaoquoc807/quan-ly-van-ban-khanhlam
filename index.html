@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TRƯỜNG THCS VÀ THPT KHÁNH LÂM - HỆ THỐNG QUẢN LÝ VĂN BẢN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col justify-between">
+  
+  <div>
+    <!-- Header -->
+    <header class="bg-blue-950 text-white shadow-xl sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap justify-between items-center gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 flex items-center justify-center text-xl text-amber-400 font-bold shadow-md border border-blue-400/30">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <h1 class="font-extrabold text-base md:text-lg leading-tight tracking-wide text-white uppercase">
+              TRƯỜNG THCS VÀ THPT KHÁNH LÂM - HỆ THỐNG QUẢN LÝ VĂN BẢN
+            </h1>
+            <p class="text-xs text-blue-300 font-medium">
+              Văn bản chỉ đạo 6 cấp: Bộ • Sở • Tỉnh • Xã • Trường • Đảng Bộ Trường
+            </p>
+          </div>
+        </div>
+        
+        <!-- Cấu hình API và Model -->
+        <div class="flex flex-wrap items-center gap-2">
+          <select id="modelSelector" class="text-xs px-2.5 py-2 rounded-xl bg-blue-900 border border-blue-700 text-amber-300 font-semibold focus:outline-none">
+            <option value="models/gemini-3.6-flash" selected>Gemini 3.6 Flash (Mới nhất)</option>
+            <option value="models/gemini-2.5-flash">Gemini 2.5 Flash (Dự phòng)</option>
+          </select>
+          <input type="password" id="geminiKeyInput" placeholder="Nhập Gemini API Key..." class="text-xs px-3 py-2 rounded-xl bg-blue-900/80 border border-blue-700 text-white placeholder-blue-300 w-32 md:w-40 focus:outline-none focus:ring-1 focus:ring-amber-400">
+          <button onclick="saveConfig()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition shadow">
+            Lưu
+          </button>
+        </div>
+      </div>
+
+      <!-- Thanh đăng nhập & Kết nối Google Apps Script -->
+      <div class="bg-blue-900/90 px-4 py-2 border-t border-blue-800 text-xs flex flex-wrap justify-between items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2 text-slate-200">
+          <span class="flex items-center gap-1.5">
+            <i class="fa-solid fa-link text-blue-400"></i>
+            <span>Google Web App URL:</span>
+          </span>
+          <input type="text" id="gasUrlInput" placeholder="Dán link Web App Apps Script (https://script.google.com/.../exec)" class="text-[11px] px-2.5 py-1 rounded bg-blue-950 border border-blue-700 text-white w-48 md:w-80 focus:outline-none">
+          <button onclick="saveGasUrl()" class="bg-blue-700 hover:bg-blue-600 text-white text-[11px] px-2.5 py-1 rounded font-bold">Lưu Link</button>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-slate-300 text-[11px]">Email đăng nhập:</span>
+          <input type="email" id="userEmailInput" placeholder="email@khanhlam.edu.vn" class="text-[11px] px-2.5 py-1 rounded bg-blue-950 border border-blue-700 text-white w-40 md:w-52 focus:outline-none">
+          <button onclick="loginUser()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] px-2.5 py-1 rounded font-bold">Xác Nhận</button>
+          <span id="userRoleBadge" class="bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full font-bold text-[11px] shadow-sm ml-1">
+            Khách xem
+          </span>
+        </div>
+      </div>
+      
+      <!-- Menu phân hệ -->
+      <div class="max-w-7xl mx-auto px-4 flex border-t border-blue-900/60 overflow-x-auto text-xs md:text-sm font-semibold">
+        <button onclick="switchTab('tabList')" id="btnTabList" class="py-2.5 px-4 text-amber-400 border-b-2 border-amber-400 flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-folder-tree"></i> Sổ Văn Bản 6 Cấp
+        </button>
+        <button onclick="switchTab('tabAdd')" id="btnTabAdd" class="py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-file-arrow-up"></i> Tiếp Nhận Văn Bản Mới
+        </button>
+        <button onclick="switchTab('tabSearch')" id="btnTabSearch" class="py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-brain"></i> Trợ Lý Tra Cứu AI
+        </button>
+        <button onclick="switchTab('tabReport')" id="btnTabReport" class="py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-feather-pointed"></i> Trích Xuất Báo Cáo AI
+        </button>
+      </div>
+    </header>
+
+    <!-- Nội dung chính -->
+    <main class="max-w-7xl mx-auto p-4 md:p-6 w-full">
+      
+      <!-- Alert thông báo -->
+      <div id="statusAlert" class="hidden mb-4 p-3.5 rounded-2xl text-xs md:text-sm font-medium flex items-center gap-3 shadow-sm">
+        <i id="statusIcon" class="fa-solid fa-circle-notch fa-spin text-base"></i>
+        <span id="statusMsg">Đang xử lý yêu cầu...</span>
+      </div>
+
+      <!-- TAB 1: SỔ VĂN BẢN 6 CẤP -->
+      <section id="tabList" class="space-y-4">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-3">
+          <div class="flex flex-wrap items-center gap-1.5 md:gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase mr-1">Cơ quan:</span>
+            <button onclick="filterAgency('ALL')" class="agency-btn active px-2.5 py-1.5 rounded-xl text-xs font-bold bg-blue-900 text-white">Tất cả 6 cấp</button>
+            <button onclick="filterAgency('Bộ GD&ĐT')" class="agency-btn px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Bộ GD&ĐT</button>
+            <button onclick="filterAgency('Sở GD&ĐT')" class="agency-btn px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Sở GD&ĐT</button>
+            <button onclick="filterAgency('UBND Tỉnh')" class="agency-btn px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">UBND Tỉnh</button>
+            <button onclick="filterAgency('UBND Xã')" class="agency-btn px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">UBND Xã</button>
+            <button onclick="filterAgency('Trường')" class="agency-btn px-2.5 py-1.5 rounded-xl text-xs font-bold bg-amber-100 text-amber-900 hover:bg-amber-200">Trường</button>
+            <button onclick="filterAgency('Đảng bộ trường')" class="agency-btn px-2.5 py-1.5 rounded-xl text-xs font-bold bg-rose-100 text-rose-900 hover:bg-rose-200">Đảng Bộ Trường</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="initDatabase()" id="btnInitSample" class="text-xs bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+              <i class="fa-solid fa-arrows-rotate"></i> Nạp Dữ Liệu Mẫu
+            </button>
+            <button onclick="loadDocuments()" class="text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold px-3 py-1.5 rounded-xl">
+              <i class="fa-solid fa-rotate-right"></i> Làm mới
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600 border-collapse">
+              <thead class="bg-slate-50 text-slate-700 font-bold uppercase text-[11px] border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-4 w-12 text-center">Chọn</th>
+                  <th class="py-3 px-4 w-28">Số Hiệu</th>
+                  <th class="py-3 px-4 w-24">Ngày Ban Hành</th>
+                  <th class="py-3 px-4 w-32">Cơ Quan</th>
+                  <th class="py-3 px-4">Trích Yếu & Tóm Tắt Cốt Lõi</th>
+                  <th class="py-3 px-4 w-24 text-center">Trạng Thái</th>
+                  <th class="py-3 px-4 w-24 text-center">Tệp Gốc</th>
+                  <th id="thAction" class="py-3 px-4 w-24 text-center hidden">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="docTableBody" class="divide-y divide-slate-100">
+                <tr><td colspan="8" class="text-center py-8 text-slate-400">Đang tải danh mục văn bản...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: TIẾP NHẬN VĂN BẢN (PHÂN QUYỀN) -->
+      <section id="tabAdd" class="hidden">
+        <div id="noPermissionBox" class="hidden bg-white border border-amber-200 p-8 rounded-2xl text-center max-w-lg mx-auto shadow-sm">
+          <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-3 text-2xl shadow-inner">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-1">Chức Năng Giới Hạn Thẩm Quyền</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Tài khoản của bạn đang có quyền <b>Giáo viên</b> (Xem, tải tệp và trích xuất báo cáo). Quyền đưa văn bản lên Google Drive thuộc về: <b>Admin, Hiệu trưởng, các Phó Hiệu trưởng, Văn thư, Trưởng bộ phận/Tổ trưởng</b>.
+          </p>
+          <button onclick="switchTab('tabList')" class="bg-blue-900 text-white font-bold text-xs px-5 py-2.5 rounded-xl hover:bg-blue-800 transition shadow">
+            Quay Lại Sổ Văn Bản
+          </button>
+        </div>
+
+        <div id="uploadAuthorizedBox" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-3xl mx-auto">
+          <div class="flex flex-wrap justify-between items-center mb-4 pb-3 border-b border-slate-100 gap-2">
+            <div>
+              <h2 class="text-base font-bold text-slate-800 uppercase flex items-center gap-2">
+                <i class="fa-solid fa-cloud-arrow-up text-blue-700"></i> Tiếp Nhận Văn Bản Vào Google Drive
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Chọn tệp đính kèm, AI Flash sẽ tự động đọc hiểu và điền biểu mẫu.</p>
+            </div>
+            <span class="text-[11px] font-bold bg-amber-100 text-amber-950 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-wand-magic-sparkles text-amber-600"></i> AI Flash OCR Tự Động
+            </span>
+          </div>
+
+          <div class="mb-5 p-4 rounded-2xl border-2 border-dashed border-blue-300 bg-blue-50/50 hover:bg-blue-50/80 transition">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg shadow shrink-0">
+                  <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <div>
+                  <label class="block font-bold text-xs text-blue-950 cursor-pointer">
+                    Chọn tệp văn bản đính kèm (PDF hoặc Ảnh chụp công văn):
+                  </label>
+                  <p class="text-[11px] text-slate-500">Tự động nhận diện văn bản của Bộ, Sở, Tỉnh, Xã, Trường hoặc Đảng bộ trường.</p>
+                </div>
+              </div>
+              <input type="file" id="inpFile" onchange="autoScanDocumentFile(event)" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" class="text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-800 file:text-white hover:file:bg-blue-900 cursor-pointer">
+            </div>
+            <div id="scanStatusIndicator" class="hidden mt-3 text-xs font-semibold text-blue-800 flex items-center gap-2">
+              <i class="fa-solid fa-circle-notch fa-spin text-blue-600"></i>
+              <span>AI Flash đang quét văn bản và phân tích thực thể hành chính...</span>
+            </div>
+          </div>
+
+          <form id="docForm" onsubmit="handleDocSubmit(event)" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-semibold mb-1 text-slate-700">Số / Ký hiệu văn bản (*):</label>
+                <input type="text" id="inpSoHieu" required placeholder="Ví dụ: 89/KH-THPTKL hoặc 08-NQ/ĐUKL" class="w-full p-2.5 border border-slate-300 rounded-xl font-bold text-blue-900 bg-slate-50 focus:bg-white transition">
+              </div>
+              <div>
+                <label class="block font-semibold mb-1 text-slate-700">Ngày ban hành (*):</label>
+                <input type="date" id="inpNgay" required class="w-full p-2.5 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white transition">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-semibold mb-1 text-slate-700">Cơ quan ban hành (*):</label>
+                <select id="inpCoQuan" class="w-full p-2.5 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white font-semibold text-slate-800 transition">
+                  <option value="Bộ GD&ĐT">Bộ Giáo dục và Đào tạo</option>
+                  <option value="Sở GD&ĐT">Sở Giáo dục và Đào tạo</option>
+                  <option value="UBND Tỉnh">UBND Tỉnh / Thành phố</option>
+                  <option value="UBND Xã">UBND Xã / Phường / Huyện</option>
+                  <option value="Trường">Trường (Trường THCS & THPT Khánh Lâm)</option>
+                  <option value="Đảng bộ trường">Đảng bộ trường (Đảng ủy / Chi bộ)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-semibold mb-1 text-slate-700">Lĩnh vực chuyên môn:</label>
+                <input type="text" id="inpLinhVuc" placeholder="Chuyên môn, Công tác Đảng, Thi đua, Cơ sở vật chất..." class="w-full p-2.5 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white transition">
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold mb-1 text-slate-700">Trích yếu nội dung văn bản (*):</label>
+              <textarea id="inpTrichYeu" rows="2" required placeholder="Ghi rõ tên loại văn bản và trích yếu..." class="w-full p-2.5 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white leading-relaxed transition"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-semibold mb-1 text-slate-700">Tóm tắt các điểm chỉ đạo cốt lõi:</label>
+              <textarea id="inpTomTat" rows="3" placeholder="Các công việc nhà trường, giáo viên, đảng viên bắt buộc phải thực hiện..." class="w-full p-2.5 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white leading-relaxed transition"></textarea>
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+              <button type="reset" class="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition">Làm lại</button>
+              <button type="submit" class="px-5 py-2.5 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 shadow transition flex items-center gap-1.5">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Lưu Trữ & Đồng Bộ Drive
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- TAB 3: TRỢ LÝ TÌM KIẾM NGỮ NGHĨA AI -->
+      <section id="tabSearch" class="hidden space-y-4">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+          <h2 class="text-base font-bold text-slate-800 uppercase mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-brain text-emerald-600"></i> Tra Cứu Căn Cứ Chỉ Đạo 6 Cấp Bằng Ngôn Ngữ Tự Nhiên
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">
+            Giáo viên và CBQL có thể tra cứu nhanh các quy chế chuyên môn hoặc công tác Đảng bộ nhà trường.
+          </p>
+          
+          <div class="flex gap-2">
+            <input type="text" id="aiSearchQuery" placeholder="Ví dụ: Tìm các văn bản hướng dẫn về giảm tải hồ sơ sổ sách cho giáo viên..." class="w-full text-xs p-3.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <button onclick="handleAISearch()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-5 py-3.5 rounded-xl shrink-0 flex items-center gap-1.5 shadow">
+              <i class="fa-solid fa-magnifying-glass"></i> AI Tra Cứu
+            </button>
+          </div>
+        </div>
+
+        <div id="aiSearchResultBox" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-robot text-blue-600"></i> Kết Quả Trả Lời Của Trợ Lý AI:
+          </h3>
+          <div id="aiSearchContent" class="prose max-w-none text-xs text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200"></div>
+        </div>
+      </section>
+
+      <!-- TAB 4: TRÍCH XUẤT BÁO CÁO HÀNH CHÍNH AI -->
+      <section id="tabReport" class="hidden space-y-4">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-4xl mx-auto">
+          <h2 class="text-base font-bold text-slate-800 uppercase mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-feather-pointed text-purple-600"></i> Trích Xuất Báo Cáo & Kế Hoạch Chuẩn Nghị Định 30
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">
+            Tích chọn các văn bản căn cứ tại Tab 1, nhập yêu cầu để AI tự động xây dựng văn bản chuẩn thể thức.
+          </p>
+
+          <div class="space-y-4 text-xs">
+            <div>
+              <label class="block font-semibold mb-1 text-slate-700">Tên cơ quan / Đảng bộ ban hành:</label>
+              <input type="text" id="reportSchoolName" value="TRƯỜNG THCS VÀ THPT KHÁNH LÂM" class="w-full p-2.5 border border-slate-300 rounded-xl font-bold text-blue-900">
+            </div>
+            <div>
+              <label class="block font-semibold mb-1 text-slate-700">Yêu cầu nội dung văn bản (*):</label>
+              <textarea id="reportRequirement" rows="3" placeholder="Ví dụ: Hãy soạn Báo cáo sơ kết việc thực hiện Quyết định 2758 của Bộ GD&ĐT trong học kỳ 1..." class="w-full p-3 border border-slate-300 rounded-xl leading-relaxed"></textarea>
+            </div>
+            <div class="flex justify-between items-center">
+              <span id="selectedCountBadge" class="text-xs font-semibold text-blue-700">Đã chọn: 0 văn bản làm căn cứ</span>
+              <button onclick="handleGenerateReport()" class="bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow flex items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Bắt Đầu Soạn Thảo AI
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="reportOutputBox" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-4xl mx-auto">
+          <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200">
+            <span class="text-xs font-bold text-purple-900 uppercase"><i class="fa-solid fa-file-lines mr-1"></i> Văn Bản Hành Chính Hoàn Chỉnh</span>
+            <button onclick="copyReportText()" class="text-xs bg-slate-100 hover:bg-slate-200 font-bold px-3 py-1.5 rounded-xl text-slate-700 transition">
+              <i class="fa-solid fa-copy mr-1"></i> Sao Chép Toàn Bộ
+            </button>
+          </div>
+          <div id="reportMarkdownRender" class="prose max-w-none text-xs text-slate-800 bg-slate-50 p-6 rounded-xl border border-slate-200 leading-relaxed font-serif"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer Bản Quyền -->
+  <footer class="bg-white border-t border-slate-200 py-4 px-4 mt-8">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-slate-600">
+      <div>
+        <span class="font-bold text-blue-950">TRƯỜNG THCS VÀ THPT KHÁNH LÂM</span> • HỆ THỐNG QUẢN LÝ VĂN BẢN ĐIỆN TỬ
+      </div>
+      <div class="text-center md:text-right font-medium text-slate-700">
+        Bản quyền thuộc về: <b class="text-blue-900">Thầy Dương Bảo Quốc</b> - Tổ Toán - Tin học
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    var globalDocList = [];
+    var selectedDocIds = [];
+    var currentUser = { email: "", role: "Giáo viên", department: "", permissions: {} };
+
+    // HÀM KẾT NỐI BACKEND (DÙNG CHUNG CHO CẢ VERCEL VÀ GOOGLE APPS SCRIPT)
+    async function apiCall(action, data) {
+      data = data || {};
+      
+      // Nếu chạy trực tiếp trong Google Apps Script
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        return new Promise(function(resolve, reject) {
+          if (action === "getUserInfo") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).getUserInfoByEmail(data.email);
+          else if (action === "initDatabase") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).initSystemDatabase(data.email);
+          else if (action === "getAllDocuments") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).getAllDocuments();
+          else if (action === "saveDocumentWithFile") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).saveDocumentWithFile(data.meta, data.fileObj, data.userEmail);
+          else if (action === "updateDocumentApproval") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).updateDocumentApproval(data.docId, data.newStatus, data.userEmail);
+          else if (action === "aiAnalyzeDocumentFile") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).aiAnalyzeDocumentFile(data.fileObj, data.apiKey, data.preferredModel, data.userEmail);
+          else if (action === "aiSemanticSearchDoc") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).aiSemanticSearchDoc(data.query, data.apiKey, data.preferredModel);
+          else if (action === "aiDraftAdministrativeReport") google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).aiDraftAdministrativeReport(data.selectedDocIds, data.reportRequest, data.schoolName, data.apiKey, data.preferredModel);
+        });
+      }
+
+      // Nếu chạy trên Vercel / GitHub Pages (qua Fetch)
+      var gasUrl = localStorage.getItem('GAS_WEBAPP_URL');
+      if (!gasUrl) {
+        throw new Error("Vui lòng dán link 'Google Web App URL' ở góc trên màn hình rồi bấm 'Lưu Link'!");
+      }
+
+      var res = await fetch(gasUrl, {
+        method: "POST",
+        body: JSON.stringify({ action: action, data: data })
+      });
+      var json = await res.json();
+      if (json.status === "error") throw new Error(json.message);
+      return json.data;
+    }
+
+    window.onload = function() {
+      var savedKey = localStorage.getItem('GEMINI_KEY');
+      if (savedKey) document.getElementById('geminiKeyInput').value = savedKey;
+
+      var savedModel = localStorage.getItem('PREF_GEMINI_MODEL');
+      if (savedModel) document.getElementById('modelSelector').value = savedModel;
+
+      var savedUrl = localStorage.getItem('GAS_WEBAPP_URL');
+      if (savedUrl) document.getElementById('gasUrlInput').value = savedUrl;
+
+      var savedEmail = localStorage.getItem('USER_EMAIL');
+      if (savedEmail) document.getElementById('userEmailInput').value = savedEmail;
+
+      loginUser();
+    };
+
+    function saveConfig() {
+      var k = document.getElementById('geminiKeyInput').value.trim();
+      var m = document.getElementById('modelSelector').value;
+      if (!k) return alert("Vui lòng điền Gemini API Key!");
+      localStorage.setItem('GEMINI_KEY', k);
+      localStorage.setItem('PREF_GEMINI_MODEL', m);
+      alert("Đã lưu API Key và lựa chọn model " + m + " thành công!");
+    }
+
+    function saveGasUrl() {
+      var url = document.getElementById('gasUrlInput').value.trim();
+      if (!url) return alert("Vui lòng dán link Google Web App URL!");
+      localStorage.setItem('GAS_WEBAPP_URL', url);
+      alert("Đã lưu link Web App kết nối Drive & Sheets thành công!");
+      loginUser();
+    }
+
+    function loginUser() {
+      var email = document.getElementById('userEmailInput').value.trim();
+      if (email) localStorage.setItem('USER_EMAIL', email);
+
+      showLoading("Đang xác thực thông tin và kiểm tra quyền...");
+      apiCall("getUserInfo", { email: email })
+        .then(function(u) {
+          hideStatus();
+          currentUser = u;
+          document.getElementById('userRoleBadge').innerText = u.role;
+
+          if (u.permissions.canUpload) {
+            document.getElementById('uploadAuthorizedBox').classList.remove('hidden');
+            document.getElementById('noPermissionBox').classList.add('hidden');
+          } else {
+            document.getElementById('uploadAuthorizedBox').classList.add('hidden');
+            document.getElementById('noPermissionBox').classList.remove('hidden');
+          }
+
+          if (u.permissions.canApprove) {
+            document.getElementById('thAction').classList.remove('hidden');
+          } else {
+            document.getElementById('thAction').classList.add('hidden');
+          }
+
+          if (u.role !== "Admin") {
+            document.getElementById('btnInitSample').classList.add('hidden');
+          } else {
+            document.getElementById('btnInitSample').classList.remove('hidden');
+          }
+
+          loadDocuments();
+        })
+        .catch(showError);
+    }
+
+    function switchTab(tabId) {
+      ['tabList', 'tabAdd', 'tabSearch', 'tabReport'].forEach(function(id) {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(tabId).classList.remove('hidden');
+
+      ['btnTabList', 'btnTabAdd', 'btnTabSearch', 'btnTabReport'].forEach(function(btn) {
+        document.getElementById(btn).className = "py-2.5 px-4 text-blue-200 hover:text-white flex items-center gap-2 shrink-0";
+      });
+      var activeBtn = tabId.replace('tab', 'btnTab');
+      document.getElementById(activeBtn).className = "py-2.5 px-4 text-amber-400 border-b-2 border-amber-400 flex items-center gap-2 shrink-0 font-bold";
+    }
+
+    function initDatabase() {
+      showLoading("Đang nạp dữ liệu 6 cấp và khởi tạo bảng phân quyền...");
+      var email = document.getElementById('userEmailInput').value.trim();
+      apiCall("initDatabase", { email: email })
+        .then(function(res) {
+          showSuccess(res);
+          loginUser();
+        })
+        .catch(showError);
+    }
+
+    function loadDocuments() {
+      showLoading("Đang đọc sổ văn bản 6 cấp...");
+      apiCall("getAllDocuments")
+        .then(function(data) {
+          globalDocList = data || [];
+          renderDocTable(globalDocList);
+          hideStatus();
+        })
+        .catch(showError);
+    }
+
+    function renderDocTable(list) {
+      var tbody = document.getElementById('docTableBody');
+      if (!list || list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center py-8 text-slate-400">Chưa có văn bản nào trong hệ thống.</td></tr>';
+        return;
+      }
+      var html = "";
+      list.forEach(function(item) {
+        var badgeColor = "bg-blue-100 text-blue-800";
+        if (item.co_quan === "Bộ GD&ĐT") badgeColor = "bg-red-100 text-red-800";
+        if (item.co_quan === "UBND Tỉnh") badgeColor = "bg-purple-100 text-purple-800";
+        if (item.co_quan === "UBND Xã") badgeColor = "bg-emerald-100 text-emerald-800";
+        if (item.co_quan === "Trường") badgeColor = "bg-amber-100 text-amber-900 border border-amber-300";
+        if (item.co_quan === "Đảng bộ trường") badgeColor = "bg-rose-600 text-white font-bold shadow-sm";
+
+        var statusColor = item.trang_thai === "Đã duyệt" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800";
+        var isChecked = selectedDocIds.indexOf(item.id) !== -1 ? "checked" : "";
+        var fileBtn = item.tep_url && item.tep_url !== "" ? 
+          '<a href="' + item.tep_url + '" target="_blank" class="text-blue-600 hover:underline font-bold inline-flex items-center gap-1"><i class="fa-solid fa-arrow-up-right-from-square"></i> Xem/Tải</a>' : 
+          '<span class="text-slate-300">-</span>';
+
+        var actionBtn = "";
+        if (currentUser.permissions.canApprove) {
+          if (item.trang_thai === "Chờ duyệt") {
+            actionBtn = '<button onclick="approveDoc(\'' + item.id + '\', \'Đã duyệt\')" class="px-2 py-1 bg-emerald-600 text-white rounded font-bold text-[10px] hover:bg-emerald-700">Duyệt</button>';
+          } else {
+            actionBtn = '<button onclick="approveDoc(\'' + item.id + '\', \'Chờ duyệt\')" class="px-2 py-1 bg-slate-200 text-slate-700 rounded font-bold text-[10px] hover:bg-slate-300">Hủy duyệt</button>';
+          }
+        }
+
+        html += '<tr class="hover:bg-slate-50 transition border-b border-slate-100">' +
+          '<td class="py-3 px-4 text-center"><input type="checkbox" onchange="toggleSelectDoc(\'' + item.id + '\')" ' + isChecked + ' class="rounded text-blue-600"></td>' +
+          '<td class="py-3 px-4 font-bold text-blue-900">' + item.so_hieu + '</td>' +
+          '<td class="py-3 px-4 text-slate-500 font-mono text-[11px]">' + item.ngay_ban_hanh + '</td>' +
+          '<td class="py-3 px-4"><span class="px-2 py-0.5 rounded text-[10px] ' + badgeColor + '">' + item.co_quan + '</span></td>' +
+          '<td class="py-3 px-4">' +
+            '<div class="font-bold text-slate-800 leading-snug">' + item.trich_yeu + '</div>' +
+            '<div class="text-[11px] text-slate-500 mt-1"><i class="fa-solid fa-bolt text-amber-500 mr-1"></i><b>Chỉ đạo cốt lõi:</b> ' + (item.tom_tat || 'Chưa cập nhật') + '</div>' +
+          '</td>' +
+          '<td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ' + statusColor + '">' + item.trang_thai + '</span></td>' +
+          '<td class="py-3 px-4 text-center">' + fileBtn + '</td>' +
+          (currentUser.permissions.canApprove ? '<td class="py-3 px-4 text-center">' + actionBtn + '</td>' : '') +
+        '</tr>';
+      });
+      tbody.innerHTML = html;
+    }
+
+    function toggleSelectDoc(id) {
+      var idx = selectedDocIds.indexOf(id);
+      if (idx === -1) selectedDocIds.push(id);
+      else selectedDocIds.splice(idx, 1);
+      document.getElementById('selectedCountBadge').innerText = "Đã chọn: " + selectedDocIds.length + " văn bản làm căn cứ";
+    }
+
+    function filterAgency(agency) {
+      document.querySelectorAll('.agency-btn').forEach(function(b) {
+        b.className = "agency-btn px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+      });
+      event.target.className = "agency-btn active px-2.5 py-1.5 rounded-xl text-xs font-bold bg-blue-900 text-white";
+
+      if (agency === 'ALL') {
+        renderDocTable(globalDocList);
+      } else {
+        var filtered = globalDocList.filter(function(d) { return d.co_quan === agency; });
+        renderDocTable(filtered);
+      }
+    }
+
+    function approveDoc(docId, newStatus) {
+      showLoading("Đang cập nhật trạng thái phê duyệt...");
+      apiCall("updateDocumentApproval", { docId: docId, newStatus: newStatus, userEmail: currentUser.email })
+        .then(function(res) {
+          showSuccess(res.message);
+          loadDocuments();
+        })
+        .catch(showError);
+    }
+
+    function autoScanDocumentFile(event) {
+      var file = event.target.files[0];
+      if (!file) return;
+
+      var apiKey = localStorage.getItem('GEMINI_KEY');
+      var preferredModel = document.getElementById('modelSelector').value;
+      if (!apiKey) return alert("Vui lòng cấu hình Gemini API Key trước khi quét tài liệu!");
+
+      var indicator = document.getElementById('scanStatusIndicator');
+      indicator.classList.remove('hidden');
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var fileObj = {
+          name: file.name,
+          mimeType: file.type || 'application/pdf',
+          base64: e.target.result
+        };
+
+        apiCall("aiAnalyzeDocumentFile", {
+          fileObj: fileObj,
+          apiKey: apiKey,
+          preferredModel: preferredModel,
+          userEmail: currentUser.email
+        })
+        .then(function(result) {
+          indicator.classList.add('hidden');
+          if (!result) return;
+          if (result.so_hieu) document.getElementById('inpSoHieu').value = result.so_hieu;
+          if (result.ngay_ban_hanh) document.getElementById('inpNgay').value = result.ngay_ban_hanh;
+          if (result.co_quan) document.getElementById('inpCoQuan').value = result.co_quan;
+          if (result.linh_vuc) document.getElementById('inpLinhVuc').value = result.linh_vuc;
+          if (result.trich_yeu) document.getElementById('inpTrichYeu').value = result.trich_yeu;
+          if (result.tom_tat) document.getElementById('inpTomTat').value = result.tom_tat;
+          showSuccess("AI Flash đã nhận diện thành công văn bản: " + (result.so_hieu || file.name));
+        })
+        .catch(function(err) {
+          indicator.classList.add('hidden');
+          showError(err);
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleDocSubmit(e) {
+      e.preventDefault();
+      var fileInput = document.getElementById('inpFile');
+      var meta = {
+        so_hieu: document.getElementById('inpSoHieu').value.trim(),
+        ngay_ban_hanh: document.getElementById('inpNgay').value,
+        co_quan: document.getElementById('inpCoQuan').value,
+        linh_vuc: document.getElementById('inpLinhVuc').value.trim(),
+        trich_yeu: document.getElementById('inpTrichYeu').value.trim(),
+        tom_tat: document.getElementById('inpTomTat').value.trim()
+      };
+
+      if (fileInput.files.length > 0) {
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+        showLoading("Đang tải tệp lên Google Drive trường...");
+        reader.onload = function(evt) {
+          var fileObj = { name: file.name, mimeType: file.type || 'application/pdf', base64: evt.target.result };
+          apiCall("saveDocumentWithFile", { meta: meta, fileObj: fileObj, userEmail: currentUser.email })
+            .then(function(res) {
+              showSuccess(res.message);
+              document.getElementById('docForm').reset();
+              fileInput.value = "";
+              switchTab('tabList');
+              loadDocuments();
+            })
+            .catch(showError);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        showLoading("Đang lưu văn bản...");
+        apiCall("saveDocumentWithFile", { meta: meta, fileObj: null, userEmail: currentUser.email })
+          .then(function(res) {
+            showSuccess(res.message);
+            document.getElementById('docForm').reset();
+            switchTab('tabList');
+            loadDocuments();
+          })
+          .catch(showError);
+      }
+    }
+
+    function handleAISearch() {
+      var k = localStorage.getItem('GEMINI_KEY');
+      var preferredModel = document.getElementById('modelSelector').value;
+      if (!k) return alert("Vui lòng cấu hình Gemini API Key trước!");
+      var q = document.getElementById('aiSearchQuery').value.trim();
+      if (!q) return alert("Hãy nhập nội dung bạn muốn tra cứu!");
+
+      showLoading("Trợ lý AI đang rà soát kho văn bản 6 cấp của trường...");
+      apiCall("aiSemanticSearchDoc", { query: q, apiKey: k, preferredModel: preferredModel })
+        .then(function(res) {
+          hideStatus();
+          document.getElementById('aiSearchResultBox').classList.remove('hidden');
+          document.getElementById('aiSearchContent').innerHTML = marked.parse(res);
+        })
+        .catch(showError);
+    }
+
+    function handleGenerateReport() {
+      var k = localStorage.getItem('GEMINI_KEY');
+      var preferredModel = document.getElementById('modelSelector').value;
+      if (!k) return alert("Vui lòng cấu hình Gemini API Key trước!");
+      var req = document.getElementById('reportRequirement').value.trim();
+      var school = document.getElementById('reportSchoolName').value.trim();
+      if (!req) return alert("Vui lòng nêu rõ yêu cầu soạn thảo báo cáo/kế hoạch!");
+
+      showLoading("Trợ lý AI đang trích lục căn cứ pháp lý và soạn thảo báo cáo...");
+      apiCall("aiDraftAdministrativeReport", {
+        selectedDocIds: selectedDocIds,
+        reportRequest: req,
+        schoolName: school,
+        apiKey: k,
+        preferredModel: preferredModel
+      })
+      .then(function(res) {
+        hideStatus();
+        document.getElementById('reportOutputBox').classList.remove('hidden');
+        document.getElementById('reportMarkdownRender').innerHTML = marked.parse(res);
+        document.getElementById('reportMarkdownRender').setAttribute('data-raw', res);
+      })
+      .catch(showError);
+    }
+
+    function copyReportText() {
+      var raw = document.getElementById('reportMarkdownRender').getAttribute('data-raw');
+      if (!raw) return;
+      navigator.clipboard.writeText(raw);
+      alert("Đã sao chép toàn bộ văn bản vào bộ nhớ tạm!");
+    }
+
+    function showLoading(msg) {
+      var box = document.getElementById('statusAlert');
+      box.className = "mb-4 p-3.5 rounded-2xl text-xs md:text-sm font-medium flex items-center gap-3 bg-blue-50 text-blue-900 border border-blue-200 shadow-sm";
+      document.getElementById('statusIcon').className = "fa-solid fa-circle-notch fa-spin text-base text-blue-600";
+      document.getElementById('statusMsg').innerText = msg;
+      box.classList.remove('hidden');
+    }
+
+    function showSuccess(msg) {
+      var box = document.getElementById('statusAlert');
+      box.className = "mb-4 p-3.5 rounded-2xl text-xs md:text-sm font-medium flex items-center gap-3 bg-emerald-50 text-emerald-900 border border-emerald-200 shadow-sm";
+      document.getElementById('statusIcon').className = "fa-solid fa-circle-check text-base text-emerald-600";
+      document.getElementById('statusMsg').innerText = msg;
+      box.classList.remove('hidden');
+    }
+
+    function showError(err) {
+      var box = document.getElementById('statusAlert');
+      box.className = "mb-4 p-3.5 rounded-2xl text-xs md:text-sm font-medium flex items-center gap-3 bg-red-50 text-red-900 border border-red-200 shadow-sm";
+      document.getElementById('statusIcon').className = "fa-solid fa-triangle-exclamation text-base text-red-600";
+      document.getElementById('statusMsg').innerText = err.message || err;
+      box.classList.remove('hidden');
+    }
+
+    function hideStatus() {
+      document.getElementById('statusAlert').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
